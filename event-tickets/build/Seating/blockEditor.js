@@ -9300,7 +9300,6 @@ const getMessage = (serviceStatus, serviceConnectUrl) => {
         rel: "noreferrer noopener"
       }, Object(external_wp_i18n_["_x"])('You need to connect your site to use assigned seating.', 'Connect to the Seating Builder link label', 'event-tickets')));
     case 'expired-license':
-    case 'invalid-license':
       return wp.element.createElement("span", {
         style: style
       }, Object(external_wp_i18n_["__"])('Your license for Seating has expired.', 'event-tickets'), ' ', wp.element.createElement("a", {
@@ -9309,6 +9308,20 @@ const getMessage = (serviceStatus, serviceConnectUrl) => {
         target: "_blank",
         rel: "noreferrer noopener"
       }, Object(external_wp_i18n_["_x"])('Renew your license to continue using Seating for Event Tickets.', 'link label for renewing the license', 'event-tickets')));
+    case 'invalid-license':
+      return wp.element.createElement("span", {
+        style: style
+      }, Object(external_wp_i18n_["__"])('Your license for Seating is invalid.', 'event-tickets'), ' ', wp.element.createElement("a", {
+        style: anchorStyle,
+        href: "https://evnt.is/1bdu",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      }, Object(external_wp_i18n_["_x"])('Check your license key settings', 'link label for checking the license', 'event-tickets')), ' ', Object(external_wp_i18n_["__"])('or', 'event-tickets'), ' ', wp.element.createElement("a", {
+        style: anchorStyle,
+        href: "https://evnt.is/1be1",
+        target: "_blank",
+        rel: "noreferrer noopener"
+      }, Object(external_wp_i18n_["_x"])('log into your account.', 'link label for account login', 'event-tickets')));
     case 'no-license':
     default:
       return '';

@@ -819,7 +819,13 @@ function _bootstrapIframe() {
 
     // Register the actions before initializing the iframe to avoid race conditions.
     registerActions(iframe);
-    yield Object(external_tec_tickets_seating_service_iframe_["initServiceIframe"])(iframe);
+    try {
+      yield Object(external_tec_tickets_seating_service_iframe_["initServiceIframe"])(iframe);
+    } catch (err) {
+      // Reload the page: the server will render a tickets block explaining what is happening.
+      window.location.reload();
+      return false;
+    }
     toggleMobileSidebarOpen(dom);
     setupMobileTicketsDrawer(dom);
     totalPriceElement = dom.querySelector('.tec-tickets-seating__total-price');
