@@ -4,7 +4,7 @@
 
 namespace Composer\Autoload;
 
-class ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f
+class ComposerStaticInit3a8885ed84fad9342daf3f204a3c48aa
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -32,6 +32,7 @@ class ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f
 
     public static $classMap = array (
         'Composer\\InstalledVersions' => __DIR__ . '/..' . '/composer/InstalledVersions.php',
+        'TEC\\Common\\Admin\\Abstract_Admin_Page' => __DIR__ . '/../..' . '/src/Common/Admin/Abstract_Admin_Page.php',
         'TEC\\Common\\Admin\\Conditional_Content\\Black_Friday' => __DIR__ . '/../..' . '/src/Common/Admin/Conditional_Content/Black_Friday.php',
         'TEC\\Common\\Admin\\Conditional_Content\\Controller' => __DIR__ . '/../..' . '/src/Common/Admin/Conditional_Content/Controller.php',
         'TEC\\Common\\Admin\\Conditional_Content\\Datetime_Conditional_Abstract' => __DIR__ . '/../..' . '/src/Common/Admin/Conditional_Content/Datetime_Conditional_Abstract.php',
@@ -62,6 +63,7 @@ class ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f
         'TEC\\Common\\Admin\\Settings_Section' => __DIR__ . '/../..' . '/src/Common/Admin/Settings_Section.php',
         'TEC\\Common\\Admin\\Settings_Sidebar' => __DIR__ . '/../..' . '/src/Common/Admin/Settings_Sidebar.php',
         'TEC\\Common\\Admin\\Settings_Sidebar_Section' => __DIR__ . '/../..' . '/src/Common/Admin/Settings_Sidebar_Section.php',
+        'TEC\\Common\\Admin\\Traits\\Is_Events_Page' => __DIR__ . '/../..' . '/src/Common/Admin/Traits/Is_Events_Page.php',
         'TEC\\Common\\Asset' => __DIR__ . '/../..' . '/src/Common/Asset.php',
         'TEC\\Common\\Configuration\\Configuration' => __DIR__ . '/../..' . '/src/Common/Configuration/Configuration.php',
         'TEC\\Common\\Configuration\\Configuration_Loader' => __DIR__ . '/../..' . '/src/Common/Configuration/Configuration_Loader.php',
@@ -84,6 +86,11 @@ class ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f
         'TEC\\Common\\Libraries\\Installer\\Provider' => __DIR__ . '/../..' . '/src/Common/Libraries/Installer/Provider.php',
         'TEC\\Common\\Libraries\\Provider' => __DIR__ . '/../..' . '/src/Common/Libraries/Provider.php',
         'TEC\\Common\\Libraries\\Uplink_Controller' => __DIR__ . '/../..' . '/src/Common/Libraries/Uplink_Controller.php',
+        'TEC\\Common\\Notifications\\Conditionals' => __DIR__ . '/../..' . '/src/Common/Notifications/Conditionals.php',
+        'TEC\\Common\\Notifications\\Controller' => __DIR__ . '/../..' . '/src/Common/Notifications/Controller.php',
+        'TEC\\Common\\Notifications\\Notifications' => __DIR__ . '/../..' . '/src/Common/Notifications/Notifications.php',
+        'TEC\\Common\\Notifications\\Readable_Trait' => __DIR__ . '/../..' . '/src/Common/Notifications/Readable_Trait.php',
+        'TEC\\Common\\Notifications\\Template' => __DIR__ . '/../..' . '/src/Common/Notifications/Template.php',
         'TEC\\Common\\Site_Health\\Factory' => __DIR__ . '/../..' . '/src/Common/Site_Health/Factory.php',
         'TEC\\Common\\Site_Health\\Fields\\Generic_Info_Field' => __DIR__ . '/../..' . '/src/Common/Site_Health/Fields/Generic_Info_Field.php',
         'TEC\\Common\\Site_Health\\Fields\\Post_Status_Count_Field' => __DIR__ . '/../..' . '/src/Common/Site_Health/Fields/Post_Status_Count_Field.php',
@@ -285,9 +292,9 @@ class ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc62c55b2f96b21c6942947c11925cc1f::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInit3a8885ed84fad9342daf3f204a3c48aa::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInit3a8885ed84fad9342daf3f204a3c48aa::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInit3a8885ed84fad9342daf3f204a3c48aa::$classMap;
 
         }, null, ClassLoader::class);
     }

@@ -57,7 +57,7 @@
 /******/ 	// undefined = chunk not loaded, null = chunk preloaded/prefetched
 /******/ 	// Promise = chunk loading, 0 = chunk loaded
 /******/ 	var installedChunks = {
-/******/ 		5: 0
+/******/ 		7: 0
 /******/ 	};
 /******/
 /******/ 	var deferredModules = [];
@@ -182,6 +182,7 @@ __webpack_require__.d(__webpack_exports__, "ACTION_RESERVATIONS_UPDATED_FROM_SEA
 __webpack_require__.d(__webpack_exports__, "ACTION_RESERVATION_CREATED", function() { return /* binding */ ACTION_RESERVATION_CREATED; });
 __webpack_require__.d(__webpack_exports__, "ACTION_RESERVATION_UPDATED", function() { return /* binding */ ACTION_RESERVATION_UPDATED; });
 __webpack_require__.d(__webpack_exports__, "ACTION_EVENT_LAYOUT_UPDATED", function() { return /* binding */ ACTION_EVENT_LAYOUT_UPDATED; });
+__webpack_require__.d(__webpack_exports__, "ACTION_REMOVE_EVENT_LAYOUT", function() { return /* binding */ ACTION_REMOVE_EVENT_LAYOUT; });
 
 // EXTERNAL MODULE: ./node_modules/@babel/runtime/helpers/defineProperty.js
 var defineProperty = __webpack_require__("lSNA");
@@ -207,6 +208,7 @@ var _window, _window$tec, _window$tec$tickets, _window$tec$tickets$s;
  * @property {string} ACTION_SEAT_TYPES_UPDATED            The action to update the seat types.
  * @property {string} ACTION_SEAT_TYPE_DELETED             The action to handle the deletion of a seat type.
  * @property {string} ACTION_EVENT_LAYOUT_UPDATED          The action to handle the update of layout type.
+ * @property {string} ACTION_REMOVE_EVENT_LAYOUT           The action to remove the layout from an event.
  */
 
 /**
@@ -237,7 +239,8 @@ const {
   ACTION_RESERVATIONS_UPDATED_FROM_SEAT_TYPES,
   ACTION_RESERVATION_CREATED,
   ACTION_RESERVATION_UPDATED,
-  ACTION_EVENT_LAYOUT_UPDATED
+  ACTION_EVENT_LAYOUT_UPDATED,
+  ACTION_REMOVE_EVENT_LAYOUT
 } = localizedData;
 
 window.tec = window.tec || {};
@@ -262,7 +265,8 @@ window.tec.tickets.seating.ajax = _objectSpread(_objectSpread({}, window.tec.tic
   ACTION_RESERVATIONS_UPDATED_FROM_SEAT_TYPES,
   ACTION_RESERVATION_CREATED,
   ACTION_RESERVATION_UPDATED,
-  ACTION_EVENT_LAYOUT_UPDATED
+  ACTION_EVENT_LAYOUT_UPDATED,
+  ACTION_REMOVE_EVENT_LAYOUT
 });
 
 /***/ })
