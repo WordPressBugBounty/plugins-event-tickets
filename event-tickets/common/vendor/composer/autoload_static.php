@@ -105,6 +105,7 @@ class ComposerStaticInitd34ed5899218cfb511d9033c2f1a48ce
         'TEC\\Common\\Telemetry\\Provider' => __DIR__ . '/../..' . '/src/Common/Telemetry/Provider.php',
         'TEC\\Common\\Telemetry\\Telemetry' => __DIR__ . '/../..' . '/src/Common/Telemetry/Telemetry.php',
         'TEC\\Common\\Translations_Loader' => __DIR__ . '/../..' . '/src/Common/Translations_Loader.php',
+        'TEC\\Common\\Updater' => __DIR__ . '/../..' . '/src/Common/Updater.php',
         'TEC\\Event_Automator\\Admin\\Tabs\\Integrations' => __DIR__ . '/../..' . '/src/Common/Event_Automator/Admin/Tabs/Integrations.php',
         'TEC\\Event_Automator\\Admin\\Tabs\\Tabs_Provider' => __DIR__ . '/../..' . '/src/Common/Event_Automator/Admin/Tabs/Tabs_Provider.php',
         'TEC\\Event_Automator\\Hooks' => __DIR__ . '/../..' . '/src/Common/Event_Automator/Hooks.php',
