@@ -9115,7 +9115,11 @@ const controls = {
     return fetchSeatTypesByLayoutId(action.layoutId);
   }
 };
+// EXTERNAL MODULE: external "wp.hooks"
+var external_wp_hooks_ = __webpack_require__("g56x");
+
 // CONCATENATED MODULE: ./src/Tickets/Seating/app/blockEditor/store/compatibility.js
+
 
 
 /**
@@ -9131,7 +9135,16 @@ const controls = {
  */
 function currentProviderSupportsSeating() {
   const provider = getTicketProviderFromCommonStore();
-  return 'TEC\\Tickets\\Commerce\\Module' === provider;
+
+  /**
+   * Filter the allowed ticket providers for seating.
+   *
+   * @since 5.20.1
+   *
+   * @param {string[]} allowedProviders The allowed ticket providers for seating.
+   */
+  let allowedProviders = Object(external_wp_hooks_["applyFilters"])('tec.tickets.seating.allowedProviders', ['TEC\\Tickets\\Commerce\\Module']);
+  return allowedProviders.includes(provider);
 }
 // CONCATENATED MODULE: ./src/Tickets/Seating/app/blockEditor/store/selectors.js
 
@@ -9306,9 +9319,6 @@ var localized_data_window;
  * @type {StoreLocalizedData}
  */
 const localizedData = (localized_data_window = window) === null || localized_data_window === void 0 || (localized_data_window = localized_data_window.tec) === null || localized_data_window === void 0 || (localized_data_window = localized_data_window.tickets) === null || localized_data_window === void 0 || (localized_data_window = localized_data_window.seating) === null || localized_data_window === void 0 ? void 0 : localized_data_window.blockEditor;
-// EXTERNAL MODULE: external "wp.hooks"
-var external_wp_hooks_ = __webpack_require__("g56x");
-
 // CONCATENATED MODULE: ./src/Tickets/Seating/app/blockEditor/store/index.js
 
 function ownKeys(e, r) { var t = Object.keys(e); if (Object.getOwnPropertySymbols) { var o = Object.getOwnPropertySymbols(e); r && (o = o.filter(function (r) { return Object.getOwnPropertyDescriptor(e, r).enumerable; })), t.push.apply(t, o); } return t; }
@@ -10570,6 +10580,7 @@ function replaceSharedCapacityInput(sharedCapacityInput) {
 
 
 
+
 const shouldRenderAssignedSeatingForm = true;
 
 /**
@@ -10588,7 +10599,9 @@ function filterRenderCapacityForm(renderDefaultForm, {
   if (!shouldRenderAssignedSeatingForm) {
     return renderDefaultForm;
   }
-  if (ticketProvider !== "TEC\\Tickets\\Commerce\\Module" && ticketProvider !== 'tc') {
+
+  // When the provider does not support seating, we render the default form.
+  if (!currentProviderSupportsSeating()) {
     return renderDefaultForm;
   }
 
