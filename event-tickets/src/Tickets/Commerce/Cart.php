@@ -4,12 +4,7 @@
 namespace TEC\Tickets\Commerce;
 
 use TEC\Tickets\Commerce;
-use TEC\Tickets\Commerce\Cart\Cart_Interface;
-use TEC\Tickets\Commerce\Traits\Cart as Cart_Trait;
-use Tribe__Tickets__Tickets as Tickets;
-use Tribe__Tickets__Tickets_Handler as Tickets_Handler;
-use Tribe__Tickets_Plus__Meta__Storage as Meta_Storage;
-use Tribe__Utils__Array as Arr;
+use \Tribe__Utils__Array as Arr;
 
 /**
  * Class Cart
@@ -19,8 +14,6 @@ use Tribe__Utils__Array as Arr;
  * @package TEC\Tickets\Commerce
  */
 class Cart {
-
-	use Cart_Trait;
 
 	/**
 	 * Which URL param we use to identify a given page as the cart.
@@ -76,20 +69,18 @@ class Cart {
 	 * parent class is the cookie handling.
 	 *
 	 * @since 5.1.9
-	 * @since 5.21.0 Updated to use Cart_Interface instead of Unmanaged_Cart.
 	 *
-	 * @return Cart_Interface
+	 * @return Commerce\Cart\Cart_Interface
 	 */
 	public function get_repository() {
-		$default_cart = tribe( Cart_Interface::class );
+		$default_cart = tribe( Cart\Unmanaged_Cart::class );
 
 		/**
 		 * Filters the cart repository, by default we use Unmanaged Cart.
 		 *
 		 * @since 5.1.9
-		 * @since 5.21.0 Updated to use Cart_Interface instead of Unmanaged_Cart.
 		 *
-		 * @param Cart_Interface $cart Instance of the cart repository managing the cart.
+		 * @param Cart\Cart_Interface $cart Instance of the cart repository managing the cart.
 		 */
 		return apply_filters( 'tec_tickets_commerce_cart_repository', $default_cart );
 	}
@@ -152,6 +143,19 @@ class Cart {
 	}
 
 	/**
+	 * Returns the name of the transient used by the cart.
+	 *
+	 * @since 5.1.9
+	 *
+	 * @param string $id
+	 *
+	 * @return string
+	 */
+	public static function get_transient_name( $id ) {
+		return Commerce::ABBR . '-cart-' . md5( $id ?? '' );
+	}
+
+	/**
 	 * Determine the Current cart Transient Key based on invoice number.
 	 *
 	 * @since 5.1.9
@@ -165,7 +169,7 @@ class Cart {
 			return null;
 		}
 
-		return $this->get_transient_key( $cart_hash );
+		return static::get_transient_name( $cart_hash );
 	}
 
 	/**
@@ -224,12 +228,17 @@ class Cart {
 	 */
 	public function get_cart_hash( $generate = false ) {
 		$cart_hash_length = 12;
-		$cart_hash        = $this->get_repository()->get_hash();
+
+		$cart_hash = $this->get_repository()->get_hash();
+
 		$hash_from_cookie = sanitize_text_field( $_COOKIE[ static::get_cart_hash_cookie_name() ] ?? '' );
 
-		if ( strlen( $hash_from_cookie ) === $cart_hash_length ) {
-			$cart_hash           = $hash_from_cookie;
-			$cart_hash_transient = get_transient( $this->get_transient_key( $cart_hash ) );
+		if (
+			strlen( $hash_from_cookie ) === $cart_hash_length
+		) {
+			$cart_hash = $hash_from_cookie;
+
+			$cart_hash_transient = get_transient( static::get_transient_name( $cart_hash ) );
 
 			if ( empty( $cart_hash_transient ) ) {
 				$cart_hash = null;
@@ -246,10 +255,10 @@ class Cart {
 				&& $max_tries >= $tries
 			) {
 				$cart_hash           = wp_generate_password( $cart_hash_length, false );
-				$cart_hash_transient = get_transient( $this->get_transient_key( $cart_hash ) );
+				$cart_hash_transient = get_transient( static::get_transient_name( $cart_hash ) );
 
 				// Make sure we increment.
-				++$tries;
+				$tries ++;
 			}
 		}
 
@@ -308,27 +317,11 @@ class Cart {
 		/**
 		 * Filters the life span of the Cart Cookie.
 		 *
-		 * @depecated
 		 * @since 5.1.9
-		 * @since 5.21.0 Deprecated in favor of `tec_tickets_commerce_cart_cookie_expiration`.
 		 *
-		 * @param int $expire The expiry time, as passed to setcookie().
+		 * @param int $expires The expiry time, as passed to setcookie().
 		 */
-		$expire = (int) apply_filters_deprecated(
-			'tec_tickets_commerce_cart_expiration',
-			[ time() + HOUR_IN_SECONDS ],
-			'5.21.0',
-			'tec_tickets_commerce_cart_cookie_expiration'
-		);
-
-		/**
-		 * Filters the life span of the Cart Cookie.
-		 *
-		 * @since 5.21.0
-		 *
-		 * @param int $expire The expiry time, as passed to setcookie().
-		 */
-		return (int) apply_filters( 'tec_tickets_commerce_cart_cookie_expiration', $expire );
+		return (int) apply_filters( 'tec_tickets_commerce_cart_expiration', time() + ( 1 * HOUR_IN_SECONDS ) );
 	}
 
 	/**
@@ -366,15 +359,13 @@ class Cart {
 	 * Get the tickets currently in the cart for a given provider.
 	 *
 	 * @since 5.1.9
-	 * @since 5.21.0 Added the $type parameter.
 	 *
-	 * @param bool   $full_item_params Determines all the item params, including event_id, sub_total, and obj.
-	 * @param string $type             The type of item to get from the cart. Default is 'ticket'. Use 'all' to get all items.
+	 * @param bool $full_item_params Determines all the item params, including event_id, sub_total, and obj.
 	 *
 	 * @return array List of items.
 	 */
-	public function get_items_in_cart( $full_item_params = false, string $type = 'ticket' ) {
-		return $this->get_repository()->get_items_in_cart( $full_item_params, $type );
+	public function get_items_in_cart( $full_item_params = false ) {
+		return $this->get_repository()->get_items_in_cart( $full_item_params );
 	}
 
 	/**
@@ -392,11 +383,11 @@ class Cart {
 	public function add_ticket( $ticket_id, $quantity = 1, array $extra_data = [] ) {
 		$cart = $this->get_repository();
 
-		// Ensure quantity is an integer.
-		$quantity = (int) $quantity;
+		// Enforces that the min to add is 1.
+		$quantity = max( 1, (int) $quantity );
 
 		// Add to / update quantity in cart.
-		$cart->upsert_item( $ticket_id, $quantity, $extra_data );
+		$cart->add_item( $ticket_id, $quantity, $extra_data );
 	}
 
 	/**
@@ -407,27 +398,16 @@ class Cart {
 	 *
 	 * @since 5.1.9
 	 *
-	 * @param int  $ticket_id Ticket ID.
-	 * @param ?int $quantity  Ticket quantity to remove. If null, the item will be removed.
+	 * @param int $ticket_id Ticket ID.
+	 * @param int $quantity  Ticket quantity to remove.
 	 */
-	public function remove_ticket( $ticket_id, ?int $quantity = null ) {
+	public function remove_ticket( $ticket_id, $quantity = 1 ) {
 		$cart = $this->get_repository();
 
-		// If the quantity is null, we remove the item.
-		if ( null === $quantity ) {
-			$cart->remove_item( $ticket_id );
-			return;
-		}
+		// Enforces that the min to remove is 1.
+		$quantity = max( 1, (int) $quantity );
 
-		// Make sure the cart actually has the item.
-		if ( ! $cart->has_item( $ticket_id ) ) {
-			return;
-		}
-
-		$current_quantity = $cart->get_item_quantity( $ticket_id );
-		$new_quantity     = max( 0, $current_quantity - $quantity );
-
-		$cart->upsert_item( $ticket_id, $new_quantity );
+		$cart->remove_item( $ticket_id, $quantity );
 	}
 
 	/**
@@ -451,18 +431,18 @@ class Cart {
 			return;
 		}
 
-		// Bail if ET+ is not in place.
-		if ( ! class_exists( Meta_Storage::class ) ) {
-			return;
-		}
-
-		$storage = new Meta_Storage();
+		$transient = get_transient( $transient_key );
 
 		// Bail if we have no data to delete.
-		$transient = get_transient( $transient_key );
 		if ( empty( $transient ) ) {
 			return;
 		}
+
+		// Bail if ET+ is not in place.
+		if ( ! class_exists( 'Tribe__Tickets_Plus__Meta__Storage' ) ) {
+			return;
+		}
+		$storage = new \Tribe__Tickets_Plus__Meta__Storage();
 
 		foreach ( $transient as $ticket_id => $data ) {
 			$storage->delete_cookie( $ticket_id );
@@ -498,6 +478,9 @@ class Cart {
 			return [];
 		}
 
+		/** @var \Tribe__Tickets__Tickets_Handler $handler */
+		$handler = tribe( 'tickets.handler' );
+
 		$raw_data = $request_data['tribe_tickets_ar_data'];
 
 		// Attempt to JSON decode data if needed.
@@ -506,20 +489,60 @@ class Cart {
 			$raw_data = json_decode( $raw_data, true );
 		}
 
-		// Set up the raw data from the request.
 		$raw_data = array_merge( $request_data, $raw_data );
 
-		// Set the initial data array.
-		$data = [
-			'post_id'  => absint( Arr::get( $raw_data, 'tribe_tickets_post_id' ) ),
-			'provider' => sanitize_text_field( Arr::get( $raw_data, 'tribe_tickets_provider', Module::class ) ),
-			'tickets'  => Arr::get( $raw_data, 'tribe_tickets_tickets' ),
-			'meta'     => Arr::get( $raw_data, 'tribe_tickets_meta', [] ),
+		$data             = [];
+		$data['post_id']  = absint( Arr::get( $raw_data, 'tribe_tickets_post_id' ) );
+		$data['provider'] = sanitize_text_field( Arr::get( $raw_data, 'tribe_tickets_provider', Module::class ) );
+		$data['tickets']  = Arr::get( $raw_data, 'tribe_tickets_tickets' );
+		$data['meta']     = Arr::get( $raw_data, 'tribe_tickets_meta', [] );
+		$tickets_meta     = Arr::get( $raw_data, 'tribe_tickets', [] );
+
+		$default_ticket = [
+			'ticket_id' => 0,
+			'quantity'  => 0,
+			'optout'    => false,
+			'iac'       => 'none',
+			'extra'     => [],
 		];
 
-		// Set up the ticket data and metadata.
-		$tickets_meta    = Arr::get( $raw_data, 'tribe_tickets', [] );
-		$data['tickets'] = array_filter( $this->map_ticket_data( $data['tickets'], $tickets_meta ) );
+		/**
+		 * @todo Determine if this should be moved into the Ticket Controller.
+		 */
+		$data['tickets'] = array_map( static function ( $ticket ) use ( $default_ticket, $handler, $tickets_meta ) {
+			if ( empty( $ticket['quantity'] ) ) {
+				return false;
+			}
+
+			$ticket = array_merge( $default_ticket, $ticket );
+
+			$ticket['quantity'] = (int) $ticket['quantity'];
+
+			if ( $ticket['quantity'] < 0 ) {
+				return false;
+			}
+
+			if ( ! empty( $tickets_meta[ $ticket['ticket_id'] ]['attendees'] ) ) {
+				$ticket['extra']['attendees'] = $tickets_meta[ $ticket['ticket_id'] ]['attendees'];
+			}
+
+			$ticket['extra']['optout'] = tribe_is_truthy( $ticket['optout'] );
+			unset( $ticket['optout'] );
+
+			$ticket['extra']['iac'] = sanitize_text_field( $ticket['iac'] );
+			unset( $ticket['iac'] );
+
+			$ticket['obj'] = \Tribe__Tickets__Tickets::load_ticket_object( $ticket['ticket_id'] );
+
+			if ( ! $handler->is_ticket_readable( $ticket['ticket_id'] ) ) {
+				return false;
+			}
+
+			return $ticket;
+		}, $data['tickets'] );
+
+		// Remove empty items.
+		$data['tickets'] = array_filter( $data['tickets'] );
 
 		/**
 		 * Filters the Meta on the Data before processing.
@@ -527,7 +550,7 @@ class Cart {
 		 * @since 5.1.9
 		 *
 		 * @param array $meta Meta information on the cart.
-		 * @param array $data Data used for the cart.
+		 * @param array $data Data used for the cart.w
 		 */
 		$data['meta'] = apply_filters( 'tec_tickets_commerce_cart_prepare_data_meta', $data['meta'], $data );
 
@@ -538,7 +561,7 @@ class Cart {
 		 *
 		 * @param array $data The cart data after processing.
 		 */
-		return (array) apply_filters( 'tec_tickets_commerce_cart_prepare_data', $this->get_repository()->prepare_data( $data ) );
+		return apply_filters( 'tec_tickets_commerce_cart_prepare_data', $this->get_repository()->prepare_data( $data ) );
 	}
 
 	/**
@@ -677,79 +700,5 @@ class Cart {
 		$filtered_cookie_name = apply_filters( 'tec_tickets_commerce_cart_hash_cookie_name', static::$cart_hash_cookie_name );
 
 		return sanitize_title( $filtered_cookie_name );
-	}
-
-	/**
-	 * Map the ticket data to a more usable format.
-	 *
-	 * @since 5.21.0
-	 *
-	 * @param array $ticket_data  Array of raw ticket data.
-	 * @param array $tickets_meta Array of ticket meta data.
-	 *
-	 * @return array Array of mapped ticket data.
-	 */
-	protected function map_ticket_data( array $ticket_data, array $tickets_meta ): array {
-		/** @var Tickets_Handler $handler */
-		$handler = tribe( 'tickets.handler' );
-
-		return array_map(
-			static function ( $ticket ) use ( $handler, $tickets_meta ) {
-				// Merge the ticket data with the default ticket data.
-				$ticket = array_merge(
-					[
-						'ticket_id' => 0,
-						'quantity'  => 0,
-						'optout'    => false,
-						'iac'       => 'none',
-						'extra'     => [],
-					],
-					$ticket
-				);
-
-				// Normalize and validate the quantity.
-				$ticket['quantity'] = (int) $ticket['quantity'];
-				if ( $ticket['quantity'] < 1 ) {
-					return false;
-				}
-
-				// Normalize and validate the ticket ID.
-				$ticket['ticket_id'] = (int) $ticket['ticket_id'];
-				if ( true !== $handler->is_ticket_readable( $ticket['ticket_id'] ) ) {
-					return false;
-				}
-
-				// Add attendee data.
-				if ( ! empty( $tickets_meta[ $ticket['ticket_id'] ]['attendees'] ) ) {
-					$ticket['extra']['attendees'] = $tickets_meta[ $ticket['ticket_id'] ]['attendees'];
-				}
-
-				// Add the optout and IAC data.
-				$ticket['extra']['optout'] = tribe_is_truthy( $ticket['optout'] );
-				$ticket['extra']['iac']    = sanitize_text_field( $ticket['iac'] );
-				unset( $ticket['optout'], $ticket['iac'] );
-
-				// Add the ticket object.
-				$ticket['obj'] = Tickets::load_ticket_object( $ticket['ticket_id'] );
-
-				return $ticket;
-			},
-			$ticket_data
-		);
-	}
-
-	/**
-	 * Returns the name of the transient used by the cart.
-	 *
-	 * @since 5.1.9
-	 * @depecated Use `get_transient_key()` via the Cart trait instead.
-	 *
-	 * @param string $id The cart id.
-	 *
-	 * @return string The transient name.
-	 */
-	public static function get_transient_name( $id ) {
-		_deprecated_function( __METHOD__, '5.21.0', 'TEC\Tickets\Commerce\Traits\Cart::get_transient_key' );
-		return Commerce::ABBR . '-cart-' . md5( $id ?? '' );
 	}
 }

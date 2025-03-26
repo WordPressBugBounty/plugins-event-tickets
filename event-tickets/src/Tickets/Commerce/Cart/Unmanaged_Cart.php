@@ -2,8 +2,7 @@
 
 namespace TEC\Tickets\Commerce\Cart;
 
-use TEC\Tickets\Commerce\Cart;
-use Tribe__Tickets__Tickets_Handler as Tickets_Handler;
+use TEC\Tickets\Commerce;
 
 /**
  * Class Unmanaged_Cart
@@ -16,20 +15,64 @@ use Tribe__Tickets__Tickets_Handler as Tickets_Handler;
 class Unmanaged_Cart extends Abstract_Cart {
 
 	/**
+	 * @var string The Cart hash for this cart.
+	 */
+	protected $cart_hash;
+
+	/**
 	 * @var array|null The list of items, null if not retrieved from transient yet.
 	 */
 	protected $items = null;
 
 	/**
-	 * Saves the cart.
-	 *
-	 * This method should include any persistence, request and redirection required
-	 * by the cart implementation.
-	 *
-	 * @since 5.1.9
+	 * {@inheritDoc}
+	 */
+	public function has_public_page() {
+		return false;
+	}
+
+	/**
+	 * {@inheritDoc}
+	 */
+	public function get_mode() {
+		return \TEC\Tickets\Commerce\Cart::REDIRECT_MODE;
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function set_hash( $hash ) {
+		/**
+		 * Filters the cart setting of a hash used for the Cart.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param string         $cart_hash Cart hash value.
+		 * @param Cart_Interface $cart      Which cart object we are using here.
+		 */
+		$this->cart_hash = apply_filters( 'tec_tickets_commerce_cart_set_hash', $hash, $this );
+	}
+
+	/**
+	 * {@inheritdoc}
+	 */
+	public function get_hash() {
+		/**
+		 * Filters the cart hash used for the Cart.
+		 *
+		 * @since 5.2.0
+		 *
+		 * @param string         $cart_hash Cart hash value.
+		 * @param Cart_Interface $cart      Which cart object we are using here.
+		 */
+		return apply_filters( 'tec_tickets_commerce_cart_get_hash', $this->cart_hash, $this );
+	}
+
+	/**
+	 * {@inheritdoc}
 	 */
 	public function save() {
-		$cart_hash = tribe( Cart::class )->get_cart_hash( true );
+		$cart_hash = tribe( Commerce\Cart::class )->get_cart_hash( true );
 
 		if ( false === $cart_hash ) {
 			return false;
@@ -42,25 +85,12 @@ class Unmanaged_Cart extends Abstract_Cart {
 			return false;
 		}
 
-		set_transient(
-			$this->get_transient_key( $cart_hash ),
-			$this->items,
-			$this->get_transient_expiration()
-		);
-
-		tribe( Cart::class )->set_cart_hash_cookie( $cart_hash );
-
-		return true;
+		set_transient( Commerce\Cart::get_transient_name( $cart_hash ), $this->items, DAY_IN_SECONDS );
+		tribe( Commerce\Cart::class )->set_cart_hash_cookie( $cart_hash );
 	}
 
 	/**
-	 * Gets the cart items from the cart.
-	 *
-	 * This method should include any persistence by the cart implementation.
-	 *
-	 * @since 5.1.9
-	 *
-	 * @return array
+	 * {@inheritdoc}
 	 */
 	public function get_items() {
 		if ( null !== $this->items ) {
@@ -73,7 +103,7 @@ class Unmanaged_Cart extends Abstract_Cart {
 
 		$cart_hash = $this->get_hash();
 
-		$items = get_transient( $this->get_transient_key( $cart_hash ) );
+		$items = get_transient( Commerce\Cart::get_transient_name( $cart_hash ) );
 
 		if ( is_array( $items ) && ! empty( $items ) ) {
 			$this->items = $items;
@@ -83,76 +113,48 @@ class Unmanaged_Cart extends Abstract_Cart {
 	}
 
 	/**
-	 * Clears the cart of its contents and persists its new state.
-	 *
-	 * @since 5.21.0 Added calculation caching reset.
-	 *
-	 * This method should include any persistence, request and redirection required
-	 * by the cart implementation.
+	 * {@inheritdoc}
 	 */
 	public function clear() {
-		$cart_hash = tribe( Cart::class )->get_cart_hash() ?? '';
+		$cart_hash = tribe( Commerce\Cart::class )->get_cart_hash();
 
 		if ( false === $cart_hash ) {
-			return;
+			return false;
 		}
 
 		$this->set_hash( null );
-		delete_transient( $this->get_transient_key( $cart_hash ) );
-		tribe( Cart::class )->set_cart_hash_cookie( null );
+		delete_transient( Commerce\Cart::get_transient_name( $cart_hash ) );
+		tribe( Commerce\Cart::class )->set_cart_hash_cookie( null );
 
 		// clear cart items data.
-		$this->items      = [];
+		$this->items = [];
 		$this->cart_total = null;
-		$this->reset_calculations();
 	}
 
 	/**
-	 * Whether a cart exists meeting the specified criteria.
-	 *
-	 * @since 5.1.9
-	 *
-	 * @param array $criteria The criteria to check for.
-	 *
-	 * @return bool Whether the cart exists or not.
+	 * {@inheritdoc}
 	 */
 	public function exists( array $criteria = [] ) {
-		$cart_hash = tribe( Cart::class )->get_cart_hash();
+		$cart_hash = tribe( Commerce\Cart::class )->get_cart_hash();
 
 		if ( false === $cart_hash ) {
 			return false;
 		}
 
-		return (bool) get_transient( $this->get_transient_key( $cart_hash ) );
+		return (bool) get_transient( Commerce\Cart::get_transient_name( $cart_hash ) );
 	}
 
 	/**
-	 * Whether the cart contains items or not.
-	 *
-	 * @since 5.1.9
-	 *
-	 * @return bool|int The number of products in the cart (regardless of the products quantity) or `false`
-	 *
+	 * {@inheritdoc}
 	 */
 	public function has_items() {
 		$items = $this->get_items();
-
-		// When we don't have items, return false.
-		if ( empty( $items ) ) {
-			return false;
-		}
 
 		return count( $items );
 	}
 
 	/**
-	 * Whether an item is in the cart or not.
-	 *
-	 * @since 5.1.9
-	 *
-	 * @param string $item_id The item ID.
-	 *
-	 * @return bool|int Either the quantity in the cart for the item or `false`.
+	 * {@inheritdoc}
 	 */
 	public function has_item( $item_id ) {
 		$items = $this->get_items();
@@ -161,14 +163,7 @@ class Unmanaged_Cart extends Abstract_Cart {
 	}
 
 	/**
-	 * Adds a specified quantity of the item to the cart.
-	 *
-	 * @since 5.1.9
-	 * @since 5.21.0 Added calculation caching reset.
-	 *
-	 * @param int|string $item_id    The item ID.
-	 * @param int        $quantity   The quantity to add.
-	 * @param array      $extra_data Extra data to save to the item.
+	 * {@inheritdoc}
 	 */
 	public function add_item( $item_id, $quantity, array $extra_data = [] ) {
 		$current_quantity = $this->has_item( $item_id );
@@ -190,23 +185,14 @@ class Unmanaged_Cart extends Abstract_Cart {
 		} else {
 			$this->remove_item( $item_id );
 		}
-
-		$this->reset_calculations();
 	}
 
 	/**
-	 * Removes an item from the cart.
-	 *
-	 * @since 5.1.9
-	 * @since 5.21.0 Added calculation caching reset.
-	 *
-	 * @param int|string $item_id  The item ID.
-	 * @param null|int   $quantity The quantity to remove.
+	 * {@inheritdoc}
 	 */
 	public function remove_item( $item_id, $quantity = null ) {
 		if ( null !== $quantity ) {
 			$this->add_item( $item_id, - abs( (int) $quantity ) );
-			$this->reset_calculations();
 
 			return;
 		}
@@ -214,66 +200,53 @@ class Unmanaged_Cart extends Abstract_Cart {
 		if ( $this->has_item( $item_id ) ) {
 			unset( $this->items[ $item_id ] );
 		}
-
-		$this->reset_calculations();
 	}
 
 	/**
 	 * Process the items in the cart.
 	 *
-	 * Data passed in to process should override anything else that is already
-	 * in the cart.
-	 *
 	 * @since 5.1.10
 	 *
-	 * @param array $data Data to be processed by the cart.
+	 * @param array $data to be processed by the cart.
 	 *
-	 * @return array|bool An array of WP_Error objects if there are errors, otherwise `true`.
+	 * @return array
 	 */
 	public function process( array $data = [] ) {
 		if ( empty( $data ) ) {
 			return false;
 		}
 
-		// Reset the contents of the cart.
 		$this->clear();
 
-		/** @var Tickets_Handler $tickets_handler */
+		/** @var \Tribe__Tickets__REST__V1__Messages $messages */
+		$messages = tribe( 'tickets.rest-v1.messages' );
+
+		// Get the number of available tickets.
+		/** @var \Tribe__Tickets__Tickets_Handler $tickets_handler */
 		$tickets_handler = tribe( 'tickets.handler' );
 
-		// Prepare the error message array.
 		$errors = [];
 
-		// Natively handle adding tickets as items to the cart.
 		foreach ( $data['tickets'] as $ticket ) {
-			// Enforces that the min to add is 1.
-			$quantity = max( 1, (int) $ticket['quantity'] );
+			$available = $tickets_handler->get_ticket_max_purchase( $ticket['ticket_id'] );
 
-			// Check if the ticket can be added to the cart.
-			$can_add_to_cart = $tickets_handler->ticket_has_capacity( $ticket['ticket_id'], $quantity, $ticket['obj'] );
+			// Bail if ticket does not have enough available capacity.
+			if ( ( - 1 !== $available && $available < $ticket['quantity'] ) || ! $ticket['obj']->date_in_range() ) {
+				$error_code = 'ticket-capacity-not-available';
 
-			// Skip and add to the errors if the ticket can't be added to the cart.
-			if ( is_wp_error( $can_add_to_cart ) ) {
-				$errors[] = $can_add_to_cart;
-
+				$errors[] = new \WP_Error( $error_code, sprintf( $messages->get_message( $error_code ), $ticket['obj']->name ), [
+					'ticket'        => $ticket,
+					'max_available' => $available,
+				] );
 				continue;
 			}
+
+			// Enforces that the min to add is 1.
+			$ticket['quantity'] = max( 1, (int) $ticket['quantity'] );
 
 			// Add to / update quantity in cart.
 			$this->add_item( $ticket['ticket_id'], $ticket['quantity'], $ticket['extra'] );
 		}
-
-		/**
-		 * Fires after the ticket data has been processed.
-		 *
-		 * This allows for further processing of data within the $data array.
-		 *
-		 * @since 5.21.0
-		 *
-		 * @param Cart_Interface $cart The cart object.
-		 * @param array          $data The data to be processed by the cart.
-		 */
-		do_action( 'tec_tickets_commerce_cart_process', $this, $data );
 
 		// Saved added items to the cart.
 		$this->save();
@@ -286,18 +259,9 @@ class Unmanaged_Cart extends Abstract_Cart {
 	}
 
 	/**
-	 * Insert or update an item.
-	 *
-	 * @since 5.21.0
-	 *
-	 * @param string|int $item_id     The item ID.
-	 * @param int        $quantity    The quantity of the item. If the item exists, this quantity will override
-	 *                                the previous quantity. Passing 0 will remove the item from the cart entirely.
-	 * @param array      $extra_data  Extra data to save to the item.
-	 *
-	 * @return void
+	 * {@inheritDoc}
 	 */
-	public function upsert_item( $item_id, int $quantity, array $extra_data = [] ) {
-		$this->add_item( $item_id, $quantity, $extra_data );
+	public function prepare_data( array $data = [] ) {
+		return $data;
 	}
 }

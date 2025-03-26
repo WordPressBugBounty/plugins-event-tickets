@@ -11,7 +11,6 @@
 
 namespace TEC\Tickets\Commerce\Order_Modifiers\Checkout;
 
-use BadMethodCallException;
 use TEC\Common\Contracts\Container;
 use TEC\Common\Contracts\Provider\Controller as Controller_Contract;
 use TEC\Tickets\Commerce\Order_Modifiers\Controller;
@@ -20,11 +19,10 @@ use TEC\Tickets\Commerce\Order_Modifiers\Modifiers\Modifier_Strategy_Interface;
 use TEC\Tickets\Commerce\Order_Modifiers\Repositories\Fees as Fee_Repository;
 use TEC\Tickets\Commerce\Order_Modifiers\Repositories\Order_Modifier_Relationship;
 use TEC\Tickets\Commerce\Order_Modifiers\Traits\Valid_Types;
-use TEC\Tickets\Commerce\Traits\Type;
-use TEC\Tickets\Commerce\Values\Currency_Value;
-use TEC\Tickets\Commerce\Values\Integer_Value;
-use TEC\Tickets\Commerce\Values\Legacy_Value_Factory;
-use TEC\Tickets\Commerce\Values\Precision_Value;
+use TEC\Tickets\Commerce\Order_Modifiers\Values\Currency_Value;
+use TEC\Tickets\Commerce\Order_Modifiers\Values\Integer_Value;
+use TEC\Tickets\Commerce\Order_Modifiers\Values\Legacy_Value_Factory;
+use TEC\Tickets\Commerce\Order_Modifiers\Values\Precision_Value;
 use TEC\Tickets\Commerce\Utils\Value;
 use Tribe__Template as Template;
 use Tribe__Tickets__Tickets as Tickets;
@@ -39,7 +37,6 @@ use WP_Post;
  */
 abstract class Abstract_Fees extends Controller_Contract {
 
-	use Type;
 	use Valid_Types;
 
 	/**
@@ -81,6 +78,29 @@ abstract class Abstract_Fees extends Controller_Contract {
 	 * @var Order_Modifier_Relationship
 	 */
 	protected Order_Modifier_Relationship $order_modifiers_relationship_repository;
+
+	/**
+	 * Subtotal value used in fee calculations.
+	 *
+	 * This represents the total amount used as a basis for calculating applicable fees.
+	 *
+	 * @since 5.18.0
+	 * @var null|Value
+	 */
+	protected ?Value $subtotal = null;
+
+	/**
+	 * Tracks whether the fees have already been appended to the cart.
+	 *
+	 * This static property ensures that the fees are only appended once during the
+	 * checkout process across multiple instances of the class. If set to `true`, the
+	 * method `append_fees_to_cart` will not add the fees again. The default is `false`,
+	 * indicating the fees have not yet been appended.
+	 *
+	 * @since 5.18.0
+	 * @var bool
+	 */
+	protected static bool $fees_appended = false;
 
 	/**
 	 * The order modifiers controller.
@@ -147,19 +167,26 @@ abstract class Abstract_Fees extends Controller_Contract {
 	 * Calculates the fees and modifies the total value in the checkout process.
 	 *
 	 * @since 5.18.0
-	 * @since 5.21.0 Removed the $subtotal parameter.
 	 *
-	 * @param array $values The existing values being passed through the filter.
-	 * @param array $items  The items in the cart.
+	 * @param array $values   The existing values being passed through the filter.
+	 * @param array $items    The items in the cart.
+	 * @param Value $subtotal The list of subtotals from the items.
 	 *
-	 * @return Precision_Value[] The updated total values, including the fees.
+	 * @return array The updated total values, including the fees.
 	 */
-	public function calculate_fees( array $values, array $items ): array {
+	public function calculate_fees( array $values, array $items, Value $subtotal ): array {
 		$cache_key = 'calculate_fees_' . md5( wp_json_encode( $items ) );
 		$cache     = tribe_cache();
 
 		if ( ! empty( $cache[ $cache_key ] ) && is_array( $cache[ $cache_key ] ) ) {
 			return $cache[ $cache_key ];
+		}
+
+		// Store the subtotal as a class property for later use, encapsulated as a Value object.
+		$this->subtotal = $subtotal;
+
+		if ( $this->subtotal->get_integer() <= 0 ) {
+			return $values;
 		}
 
 		// Fetch the combined fees for the items in the cart.
@@ -170,10 +197,10 @@ abstract class Abstract_Fees extends Controller_Contract {
 		}
 
 		// Calculate the total fees based on each individual fee.
-		$fee_values = $this->manager->combine_total_fees( $combined_fees );
+		$sum_of_fees = $this->manager->calculate_total_fees( $combined_fees );
 
 		// Add the calculated fees to the total value.
-		$values = array_merge( $values, $fee_values );
+		$values[] = $sum_of_fees;
 
 		$cache[ $cache_key ] = $values;
 
@@ -190,6 +217,10 @@ abstract class Abstract_Fees extends Controller_Contract {
 	 * @param Template $template The template object for rendering.
 	 */
 	public function display_fee_section( WP_Post $post, array $items, Template $template ): void {
+		if ( ! $this->subtotal ) {
+			return;
+		}
+
 		// Process the fees for each item into a single array.
 		$combined_fees = $this->prepare_fees_for_frontend_display( $items );
 
@@ -342,22 +373,22 @@ abstract class Abstract_Fees extends Controller_Contract {
 	 * Adds fees as separate items in the cart.
 	 *
 	 * @since 5.18.0
-	 * @sicne 5.21.0 Removed the $subtotal parameter.
 	 *
-	 * @param array $items The current items in the cart.
+	 * @param array $items    The current items in the cart.
+	 * @param Value $subtotal The calculated subtotal of the cart items.
 	 *
 	 * @return array Updated list of items with fees added.
 	 */
-	public function append_fees_to_cart( array $items ) {
+	public function append_fees_to_cart( array $items, Value $subtotal ) {
+		if ( self::$fees_appended ) {
+			return $items;
+		}
+
 		if ( empty( $items ) ) {
 			return $items;
 		}
 
-		// See if we already have fees in the cart.
-		$fee_items = array_filter( $items, fn( $item ) => $this->is_fee( $item ) );
-		if ( ! empty( $fee_items ) ) {
-			return $items;
-		}
+		$this->subtotal = $subtotal;
 
 		// Get all the combined fees for the items in the cart.
 		$raw_fees = $this->get_combined_fees_for_items( $items, true );
@@ -402,7 +433,11 @@ abstract class Abstract_Fees extends Controller_Contract {
 		}
 
 		// Add the fee items to the other cart items.
-		return array_merge( $items, $fee_items );
+		$items = array_merge( $items, $fee_items );
+
+		self::$fees_appended = true;
+
+		return $items;
 	}
 
 	/**
@@ -439,7 +474,7 @@ abstract class Abstract_Fees extends Controller_Contract {
 					: $amount;
 
 				/*
-				 * Because of how the items are grouped, we need to combine the fees differently
+				 * Because of how the items are grouped, we need to combine the fees differentlyl
 				 * based on whether they are flat or a percentage. Flat fees will be the same price
 				 * regardless of what item they are attached to. Percent fees will be calculated
 				 * based on the price of the item they are attached to. Therefore, we need to index
@@ -485,28 +520,15 @@ abstract class Abstract_Fees extends Controller_Contract {
 	}
 
 	/**
-	 * Triggered when invoking inaccessible methods in an object context.
+	 * Resets the fees state and resets the subtotal to zero.
 	 *
-	 * @since 5.21.0
+	 * This method clears the flag indicating that fees have been appended
+	 * and resets the subtotal to its default value of zero.
 	 *
-	 * @param string $name      The name of the method being called.
-	 * @param array  $arguments Arguments passed to the method.
-	 *
-	 * @return mixed
-	 * @throws BadMethodCallException When an invalid method is called.
+	 * @return void
 	 */
-	public function __call( $name, $arguments ) {
-		switch ( $name ) {
-			case 'reset_fees_and_subtotal':
-				_deprecated_function(
-					esc_html( __CLASS__ . "::{$name}" ),
-					'5.21.0',
-					esc_html__( 'This method is no longer used.', 'event-tickets' )
-				);
-				return;
-
-			default:
-				throw new BadMethodCallException( esc_html( __CLASS__ . "::{$name}" ) );
-		}
+	public function reset_fees_and_subtotal(): void {
+		self::$fees_appended = false;
+		$this->subtotal      = null;
 	}
 }

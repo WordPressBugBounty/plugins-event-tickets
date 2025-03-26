@@ -3,11 +3,13 @@
 namespace TEC\Tickets\Commerce\Admin_Tables;
 
 use TEC\Tickets\Commerce\Gateways\Manager;
+use TEC\Tickets\Commerce\Status\Completed;
+use TEC\Tickets\Commerce\Status\Refunded;
 use TEC\Tickets\Commerce\Status\Status_Handler;
-use TEC\Tickets\Commerce\Traits\Is_Ticket;
-use Tribe__Tickets__Tickets as Tickets;
-use WP_List_Table;
-use WP_Post;
+use \Tribe__Utils__Array as Arr;
+
+use \WP_List_Table;
+use \WP_Post;
 
 if ( ! class_exists( 'WP_List_Table' ) ) {
 	require_once( ABSPATH . 'wp-admin/includes/screen.php' );
@@ -21,8 +23,6 @@ if ( ! class_exists( 'WP_List_Table' ) ) {
  *
  */
 class Orders extends WP_List_Table {
-
-	use Is_Ticket;
 
 	/**
 	 * The user option that will be used to store the number of orders per page to show.
@@ -333,11 +333,7 @@ class Orders extends WP_List_Table {
 		}
 
 		foreach ( $item->items as $cart_item ) {
-			if ( ! $this->is_ticket( $cart_item ) ) {
-				continue;
-			}
-
-			$ticket   = Tickets::load_ticket_object( $cart_item['ticket_id'] );
+			$ticket   = \Tribe__Tickets__Tickets::load_ticket_object( $cart_item['ticket_id'] );
 			$name     = esc_html( $ticket->name );
 			$quantity = esc_html( (int) $cart_item['quantity'] );
 			$output   .= "<div class='tribe-line-item'>{$quantity} - {$name}</div>";
@@ -698,7 +694,7 @@ class Orders extends WP_List_Table {
 						$header
 					);
 				}
-
+				
 				$csv_row[] = empty( $value ) ? $value : $this->sanitize_and_format_csv_value( $value );
 			}
 			$csv_data[] = $csv_row;

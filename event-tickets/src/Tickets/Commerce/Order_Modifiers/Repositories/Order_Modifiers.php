@@ -501,22 +501,16 @@ class Order_Modifiers extends Repository implements Insertable, Updatable, Delet
 		$builder = new QueryBuilder();
 		$builder
 			->from( $this->get_table_name( false ), $modifiers )
-			->select( "{$modifiers}.*" )
+			->select( "{$modifiers}.*", "{$meta}.meta_value" )
 			->where( "{$modifiers}.modifier_type", $this->modifier_type );
 
 		if ( $with_applied_to_meta ) {
-			$builder
-				->select( "{$meta}.meta_value" )
-				->innerJoin(
-					$this->get_meta_table_name( false ),
-					"{$modifiers}.id",
-					"{$meta}.order_modifier_id",
-					$meta
-				)
-				->where(
-					"{$meta}.meta_key",
-					$this->get_applied_to_key( $this->modifier_type )
-				);
+			$builder->innerJoin(
+				$this->get_meta_table_name( false ),
+				"{$modifiers}.id",
+				"{$meta}.order_modifier_id",
+				$meta
+			)->where( "{$meta}.meta_key", $this->get_applied_to_key( $this->modifier_type ) );
 		}
 
 		// Add the status params to the pieces.

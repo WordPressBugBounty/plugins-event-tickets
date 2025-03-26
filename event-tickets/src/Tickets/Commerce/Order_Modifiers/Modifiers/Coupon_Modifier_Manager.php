@@ -9,6 +9,8 @@
 
 namespace TEC\Tickets\Commerce\Order_Modifiers\Modifiers;
 
+use TEC\Tickets\Commerce\Order_Modifiers\Modifiers\Coupon;
+
 /**
  * Coupon_Modifier_Manager class
  *
@@ -22,6 +24,6 @@ class Coupon_Modifier_Manager extends Modifier_Manager {
 	 * @param Coupon $coupon The coupon object.
 	 */
 	public function __construct( Coupon $coupon ) {
-		parent::__construct( $coupon );
+		$this->strategy = $coupon;
 	}
 }

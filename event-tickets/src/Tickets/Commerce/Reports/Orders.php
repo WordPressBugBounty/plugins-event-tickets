@@ -2,15 +2,12 @@
 
 namespace TEC\Tickets\Commerce\Reports;
 
-use TEC\Tickets\Commerce\Admin_Tables\Attendees as Attendees_Table;
-use TEC\Tickets\Commerce\Admin_Tables\Orders as Orders_Table;
+use TEC\Tickets\Commerce;
 use TEC\Tickets\Commerce\Module;
-use TEC\Tickets\Commerce\Reports\Data\Order_Summary;
 use TEC\Tickets\Event;
-use Tribe__Main;
-use Tribe__Tickets__Main as Plugin;
-use Tribe__Tickets__Tickets as Tickets;
 use WP_Post;
+
+use Tribe__Tickets__Main as Plugin;
 
 /**
  * Class Orders Report.
@@ -209,7 +206,7 @@ class Orders extends Report_Abstract {
 	 * @return array
 	 */
 	public function add_orders_row_action( array $actions, $post ) {
-		$post_id = Tribe__Main::post_id_helper( $post );
+		$post_id = \Tribe__Main::post_id_helper( $post );
 		$post    = get_post( $post_id );
 
 		// only if tickets are active on this post type
@@ -277,8 +274,8 @@ class Orders extends Report_Abstract {
 			[ $this, 'render_page' ]
 		);
 
-		/** @var Attendees_Table $attendees */
-		$attendees = tribe( Attendees_Table::class );
+		/** @var Commerce\Admin_Tables\Attendees $attendees */
+		$attendees = tribe( Commerce\Admin_Tables\Attendees::class );
 
 		add_filter( 'tribe_filter_attendee_page_slug', [ $this, 'add_attendee_resources_page_slug' ] );
 		add_action( 'admin_enqueue_scripts', [ $attendees, 'enqueue_assets' ] );
@@ -307,7 +304,7 @@ class Orders extends Report_Abstract {
 	 * @since 5.2.0
 	 */
 	public function attendees_page_screen_setup() {
-		$orders_table = tribe( Orders_Table::class );
+		$orders_table = tribe( Commerce\Admin_Tables\Orders::class );
 		$orders_table->prepare_items();
 		$orders_table->maybe_generate_csv();
 
@@ -366,11 +363,10 @@ class Orders extends Report_Abstract {
 		$post_type_object    = get_post_type_object( $post->post_type );
 		$post_singular_label = $post_type_object->labels->singular_name;
 
-		$order_summary = new Order_Summary( $post_id );
-		$order_summary->init();
+		$order_summary = new Commerce\Reports\Data\Order_Summary( $post_id );
 
 		$this->template_vars = [
-			'orders_table'        => tribe( Orders_Table::class ),
+			'orders_table'        => tribe( Commerce\Admin_Tables\Orders::class ),
 			'post'                => $post,
 			'post_id'             => $post_id,
 			'post_type_object'    => $post_type_object,
@@ -392,7 +388,7 @@ class Orders extends Report_Abstract {
 	 * @return string
 	 */
 	public function filter_editor_orders_link( $url, $post_id ) {
-		$provider = Tickets::get_event_ticket_provider( $post_id );
+		$provider = \Tribe__Tickets__Tickets::get_event_ticket_provider( $post_id );
 
 		if ( Module::class !== $provider ) {
 			return $url;
