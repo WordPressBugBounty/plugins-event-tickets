@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/T25.falcon.1',
-        'version' => 'dev-release/T25.falcon.1',
-        'reference' => 'b0bbfca485729bcf782acaac25823e1447e1861b',
+        'pretty_version' => 'dev-release/T25.firestorm',
+        'version' => 'dev-release/T25.firestorm',
+        'reference' => '9ceae2bd36cf677a624a7456f7ce9d4bc633466a',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/T25.falcon.1',
-            'version' => 'dev-release/T25.falcon.1',
-            'reference' => 'b0bbfca485729bcf782acaac25823e1447e1861b',
+            'pretty_version' => 'dev-release/T25.firestorm',
+            'version' => 'dev-release/T25.firestorm',
+            'reference' => '9ceae2bd36cf677a624a7456f7ce9d4bc633466a',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
