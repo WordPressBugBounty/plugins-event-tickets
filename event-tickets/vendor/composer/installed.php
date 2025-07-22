@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/T25.gambit',
-        'version' => 'dev-release/T25.gambit',
-        'reference' => 'b3a4785e1a9edc411827d2c0272bc5c1b3b97c0c',
+        'pretty_version' => 'dev-release/T25.greenarrow',
+        'version' => 'dev-release/T25.greenarrow',
+        'reference' => 'd3eb08711d8e2ecfc8a4aadceda58ab39638ab40',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/T25.gambit',
-            'version' => 'dev-release/T25.gambit',
-            'reference' => 'b3a4785e1a9edc411827d2c0272bc5c1b3b97c0c',
+            'pretty_version' => 'dev-release/T25.greenarrow',
+            'version' => 'dev-release/T25.greenarrow',
+            'reference' => 'd3eb08711d8e2ecfc8a4aadceda58ab39638ab40',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
