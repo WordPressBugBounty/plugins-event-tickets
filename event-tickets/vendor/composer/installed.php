@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/T25.greenarrow',
-        'version' => 'dev-release/T25.greenarrow',
-        'reference' => 'd3eb08711d8e2ecfc8a4aadceda58ab39638ab40',
+        'pretty_version' => 'dev-release/T25.greenarrow.1',
+        'version' => 'dev-release/T25.greenarrow.1',
+        'reference' => '16b233e2ea2898391ae952fde747922fa0ea2031',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/T25.greenarrow',
-            'version' => 'dev-release/T25.greenarrow',
-            'reference' => 'd3eb08711d8e2ecfc8a4aadceda58ab39638ab40',
+            'pretty_version' => 'dev-release/T25.greenarrow.1',
+            'version' => 'dev-release/T25.greenarrow.1',
+            'reference' => '16b233e2ea2898391ae952fde747922fa0ea2031',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
