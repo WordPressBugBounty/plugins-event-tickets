@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/T25.hawkeye',
-        'version' => 'dev-release/T25.hawkeye',
-        'reference' => '606235c41fee8c31a9ebe8e69853bda254028c7b',
+        'pretty_version' => 'dev-release/T25.hawkeye.1',
+        'version' => 'dev-release/T25.hawkeye.1',
+        'reference' => 'e5afd9e1e908aa1f110d6780ddd641c8111ef352',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/T25.hawkeye',
-            'version' => 'dev-release/T25.hawkeye',
-            'reference' => '606235c41fee8c31a9ebe8e69853bda254028c7b',
+            'pretty_version' => 'dev-release/T25.hawkeye.1',
+            'version' => 'dev-release/T25.hawkeye.1',
+            'reference' => 'e5afd9e1e908aa1f110d6780ddd641c8111ef352',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
