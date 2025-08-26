@@ -4,7 +4,7 @@
     'name' => 'the-events-calendar/tribe-common',
     'pretty_version' => 'dev-master',
     'version' => 'dev-master',
-    'reference' => 'f0d4f977206d78c2d23aac2272a1690c72c80a44',
+    'reference' => 'efef6ffe9599d7f685eb176e41b8368958a4a517',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
