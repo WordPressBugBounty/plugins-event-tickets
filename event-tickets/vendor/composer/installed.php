@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/T25.invisiblewoman',
-        'version' => 'dev-release/T25.invisiblewoman',
-        'reference' => 'cc90d7757703477d5ebe54bc6e63f21f93dd8c90',
+        'pretty_version' => 'dev-release/T25.ion',
+        'version' => 'dev-release/T25.ion',
+        'reference' => '20e4509a80c177ca0a08866c494fe9efe75b74fb',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/T25.invisiblewoman',
-            'version' => 'dev-release/T25.invisiblewoman',
-            'reference' => 'cc90d7757703477d5ebe54bc6e63f21f93dd8c90',
+            'pretty_version' => 'dev-release/T25.ion',
+            'version' => 'dev-release/T25.ion',
+            'reference' => '20e4509a80c177ca0a08866c494fe9efe75b74fb',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
