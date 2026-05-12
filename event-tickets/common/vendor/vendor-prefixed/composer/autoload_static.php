@@ -4,7 +4,7 @@
 
 namespace TEC\Common\Composer\Autoload;
 
-class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
+class ComposerStaticInite3786356b379a644df4ee5c1afc425cc
 {
     public static $prefixLengthsPsr4 = array (
         'T' => 
@@ -200,6 +200,7 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\Functions\\Global_Function_Registry' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/Functions/Global_Function_Registry.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\Functions\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/Functions/Provider.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Catalog_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Catalog_Controller.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Consent_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Consent_Controller.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Feature_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Feature_Controller.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Harbor_Hosts_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Harbor_Hosts_Controller.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Legacy_License_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Legacy_License_Controller.php',
@@ -207,6 +208,7 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\License_Response' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/License_Response.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\API\\REST\\V1\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/API/REST/V1/Provider.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Admin\\Feature_Manager_Page' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Admin/Feature_Manager_Page.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Admin\\Opt_In_Page' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Admin/Opt_In_Page.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Admin\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Admin/Provider.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\CLI\\Commands\\Catalog' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/CLI/Commands/Catalog.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\CLI\\Commands\\Feature' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/CLI/Commands/Feature.php',
@@ -215,7 +217,11 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
         'TEC\\Common\\LiquidWeb\\Harbor\\CLI\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/CLI/Provider.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Components\\Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Components/Controller.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Config' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Config.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Consent\\Consent_Repository' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Consent/Consent_Repository.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Consent\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Consent/Provider.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Contracts\\Abstract_Admin_Page' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Contracts/Abstract_Admin_Page.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Contracts\\Abstract_Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Contracts/Abstract_Provider.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Contracts\\Admin_Page_Interface' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Contracts/Admin_Page_Interface.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Contracts\\Provider_Interface' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Contracts/Provider_Interface.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Cron\\Actions\\Handle_Unschedule_Cron_Data_Refresh' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Cron/Actions/Handle_Unschedule_Cron_Data_Refresh.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Cron\\Jobs\\Refresh_Catalog_Job' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Cron/Jobs/Refresh_Catalog_Job.php',
@@ -246,6 +252,7 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
         'TEC\\Common\\LiquidWeb\\Harbor\\Features\\Update\\Resolve_Update_Data' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Features/Update/Resolve_Update_Data.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Features\\Update\\Theme_Handler' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Features/Update/Theme_Handler.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Harbor' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Harbor.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Http\\Null_Client' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Http/Null_Client.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Http\\Provider' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Http/Provider.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Legacy\\Legacy_License' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Legacy/Legacy_License.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Legacy\\License_Repository' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Legacy/License_Repository.php',
@@ -265,6 +272,7 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Catalog_Repository' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Catalog_Repository.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Clients\\Fixture_Client' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Clients/Fixture_Client.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Clients\\Http_Client' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Clients/Http_Client.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Clients\\Null_Client' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Clients/Null_Client.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Clients\\Portal_Client' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Clients/Portal_Client.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Contracts\\Download_Url_Builder' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Contracts/Download_Url_Builder.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Error_Code' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Error_Code.php',
@@ -877,9 +885,9 @@ class ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInita5e43efdf5f91605b92dd1c25e5e1f58::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInite3786356b379a644df4ee5c1afc425cc::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInite3786356b379a644df4ee5c1afc425cc::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInite3786356b379a644df4ee5c1afc425cc::$classMap;
 
         }, null, ClassLoader::class);
     }
