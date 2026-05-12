@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-fix/SVUL-71-paypal-square-vulnerabilities-fix',
-        'version' => 'dev-fix/SVUL-71-paypal-square-vulnerabilities-fix',
-        'reference' => 'aa341460fd50c3c60cee41f2411c319d8391b7e1',
+        'pretty_version' => 'dev-bucket/product-consolidation',
+        'version' => 'dev-bucket/product-consolidation',
+        'reference' => '0edc1cffeb78bda48940c75764015c890532e724',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-fix/SVUL-71-paypal-square-vulnerabilities-fix',
-            'version' => 'dev-fix/SVUL-71-paypal-square-vulnerabilities-fix',
-            'reference' => 'aa341460fd50c3c60cee41f2411c319d8391b7e1',
+            'pretty_version' => 'dev-bucket/product-consolidation',
+            'version' => 'dev-bucket/product-consolidation',
+            'reference' => '0edc1cffeb78bda48940c75764015c890532e724',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
