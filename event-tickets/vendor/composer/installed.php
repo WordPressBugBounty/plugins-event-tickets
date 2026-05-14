@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/harbor-update',
-        'version' => 'dev-release/harbor-update',
-        'reference' => 'd374d8f47ffbad6fd19c21ba0fe1dc05dbafff08',
+        'pretty_version' => 'dev-release/harbor-1.2.0',
+        'version' => 'dev-release/harbor-1.2.0',
+        'reference' => 'f8d2e27334b86ba4baec3bfe2fd882d06fa187c0',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/harbor-update',
-            'version' => 'dev-release/harbor-update',
-            'reference' => 'd374d8f47ffbad6fd19c21ba0fe1dc05dbafff08',
+            'pretty_version' => 'dev-release/harbor-1.2.0',
+            'version' => 'dev-release/harbor-1.2.0',
+            'reference' => 'f8d2e27334b86ba4baec3bfe2fd882d06fa187c0',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
