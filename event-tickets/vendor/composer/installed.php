@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/M26.gardevoir',
-        'version' => 'dev-release/M26.gardevoir',
-        'reference' => '3ab93e5fcca13d5db0a2ed1266f8658b8a425450',
+        'pretty_version' => 'dev-fix/SVUL-5-escape-post-title',
+        'version' => 'dev-fix/SVUL-5-escape-post-title',
+        'reference' => 'cba26c3e5013e284a5b6f3ddcea9b7105d94a17b',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/M26.gardevoir',
-            'version' => 'dev-release/M26.gardevoir',
-            'reference' => '3ab93e5fcca13d5db0a2ed1266f8658b8a425450',
+            'pretty_version' => 'dev-fix/SVUL-5-escape-post-title',
+            'version' => 'dev-fix/SVUL-5-escape-post-title',
+            'reference' => 'cba26c3e5013e284a5b6f3ddcea9b7105d94a17b',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
