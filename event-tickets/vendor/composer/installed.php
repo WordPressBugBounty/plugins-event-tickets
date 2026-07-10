@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/M26.jigglypuff',
-        'version' => 'dev-release/M26.jigglypuff',
-        'reference' => 'c721248bcc24b7aa2e3dfb9ff020bce926551b4b',
+        'pretty_version' => 'dev-release/M26.jigglypuff.1',
+        'version' => 'dev-release/M26.jigglypuff.1',
+        'reference' => '8329c5b248eeba66934f03aab294eedcb1340645',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/M26.jigglypuff',
-            'version' => 'dev-release/M26.jigglypuff',
-            'reference' => 'c721248bcc24b7aa2e3dfb9ff020bce926551b4b',
+            'pretty_version' => 'dev-release/M26.jigglypuff.1',
+            'version' => 'dev-release/M26.jigglypuff.1',
+            'reference' => '8329c5b248eeba66934f03aab294eedcb1340645',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
