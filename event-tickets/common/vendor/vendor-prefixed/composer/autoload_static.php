@@ -4,7 +4,7 @@
 
 namespace TEC\Common\Composer\Autoload;
 
-class ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210
+class ComposerStaticInitf5b29e581467895ea27d5b940f7a5bdf
 {
     public static $prefixLengthsPsr4 = array (
         'T' =>
@@ -275,6 +275,7 @@ class ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210
         'TEC\\Common\\LiquidWeb\\Harbor\\Licensing\\Registry\\Product_Registry' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Licensing/Registry/Product_Registry.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Licensing\\Repositories\\License_Repository' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Licensing/Repositories/License_Repository.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Licensing\\Results\\Product_Entry' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Licensing/Results/Product_Entry.php',
+        'TEC\\Common\\LiquidWeb\\Harbor\\Licensing\\Validation_State' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Licensing/Validation_State.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Notice\\Notice' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Notice/Notice.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Notice\\Notice_Controller' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Notice/Notice_Controller.php',
         'TEC\\Common\\LiquidWeb\\Harbor\\Portal\\Catalog_Collection' => __DIR__ . '/..' . '/stellarwp/harbor/src/Harbor/Portal/Catalog_Collection.php',
@@ -883,9 +884,9 @@ class ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210
     public static function getInitializer(ClassLoader $loader)
     {
         return \Closure::bind(function () use ($loader) {
-            $loader->prefixLengthsPsr4 = ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210::$prefixLengthsPsr4;
-            $loader->prefixDirsPsr4 = ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210::$prefixDirsPsr4;
-            $loader->classMap = ComposerStaticInitc6f0ba83f90ba2bab3ad4d24c39d7210::$classMap;
+            $loader->prefixLengthsPsr4 = ComposerStaticInitf5b29e581467895ea27d5b940f7a5bdf::$prefixLengthsPsr4;
+            $loader->prefixDirsPsr4 = ComposerStaticInitf5b29e581467895ea27d5b940f7a5bdf::$prefixDirsPsr4;
+            $loader->classMap = ComposerStaticInitf5b29e581467895ea27d5b940f7a5bdf::$classMap;
 
         }, null, ClassLoader::class);
     }
