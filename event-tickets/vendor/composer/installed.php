@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/M26.mewtwo',
-        'version' => 'dev-release/M26.mewtwo',
-        'reference' => 'e0778b8026849d05d27af29ebbd28f11478e40b1',
+        'pretty_version' => 'dev-release/M26.nidoking',
+        'version' => 'dev-release/M26.nidoking',
+        'reference' => 'e9466f86d4af768264661599f5de1b15bb0a309f',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/M26.mewtwo',
-            'version' => 'dev-release/M26.mewtwo',
-            'reference' => 'e0778b8026849d05d27af29ebbd28f11478e40b1',
+            'pretty_version' => 'dev-release/M26.nidoking',
+            'version' => 'dev-release/M26.nidoking',
+            'reference' => 'e9466f86d4af768264661599f5de1b15bb0a309f',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
