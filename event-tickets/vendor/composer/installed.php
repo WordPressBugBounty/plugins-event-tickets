@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/M26.nidoking',
-        'version' => 'dev-release/M26.nidoking',
-        'reference' => 'e9466f86d4af768264661599f5de1b15bb0a309f',
+        'pretty_version' => 'dev-release/M26.octillery',
+        'version' => 'dev-release/M26.octillery',
+        'reference' => '0a639f399ffba12a7873099150f65969fe7b5c4a',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/M26.nidoking',
-            'version' => 'dev-release/M26.nidoking',
-            'reference' => 'e9466f86d4af768264661599f5de1b15bb0a309f',
+            'pretty_version' => 'dev-release/M26.octillery',
+            'version' => 'dev-release/M26.octillery',
+            'reference' => '0a639f399ffba12a7873099150f65969fe7b5c4a',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
