@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/P26.rsvp-merge',
-        'version' => 'dev-release/P26.rsvp-merge',
-        'reference' => '62a8b39ceac48a011d626fbee2fefd21fb448f4a',
+        'pretty_version' => 'dev-release/P26.rsvp-merge.1',
+        'version' => 'dev-release/P26.rsvp-merge.1',
+        'reference' => '0a2efec3a6b73d69c3aa12fe51ea5fca2b746750',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/P26.rsvp-merge',
-            'version' => 'dev-release/P26.rsvp-merge',
-            'reference' => '62a8b39ceac48a011d626fbee2fefd21fb448f4a',
+            'pretty_version' => 'dev-release/P26.rsvp-merge.1',
+            'version' => 'dev-release/P26.rsvp-merge.1',
+            'reference' => '0a2efec3a6b73d69c3aa12fe51ea5fca2b746750',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
