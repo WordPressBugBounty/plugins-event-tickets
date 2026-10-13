@@ -4,7 +4,7 @@
     'name' => 'the-events-calendar/tribe-common',
     'pretty_version' => 'dev-main',
     'version' => 'dev-main',
-    'reference' => 'bb427df89e414da2c7a8e0f10570789436e9bb5a',
+    'reference' => '9ca7e3dd4d2bef3950e1c874f16fc9dd976f7423',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
@@ -170,6 +170,18 @@
       ),
       'dev_requirement' => false,
     ),
+    'stellarwp/banners' => 
+    array (
+      'pretty_version' => '1.1.0',
+      'version' => '1.1.0.0',
+      'reference' => '782dc5754c5a68d1ccf9b90979a0d2a800d7f3fd',
+      'type' => 'library',
+      'install_path' => __DIR__ . '/../stellarwp/banners',
+      'aliases' => 
+      array (
+      ),
+      'dev_requirement' => false,
+    ),
     'stellarwp/container-contract' => 
     array (
       'pretty_version' => '1.1.1',
@@ -196,9 +208,9 @@
     ),
     'stellarwp/harbor' => 
     array (
-      'pretty_version' => 'v1.6.0',
-      'version' => '1.6.0.0',
-      'reference' => 'e0253fa5512522a50dd73abe990d3591017494fb',
+      'pretty_version' => 'v2.0.2',
+      'version' => '2.0.2.0',
+      'reference' => 'bc13f0ee39c7f1460aa746dddb183dcf0462c5d3',
       'type' => 'library',
       'install_path' => __DIR__ . '/../stellarwp/harbor',
       'aliases' => 
