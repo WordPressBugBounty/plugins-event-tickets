@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'the-events-calendar/event-tickets',
-        'pretty_version' => 'dev-release/M26.snorlax',
-        'version' => 'dev-release/M26.snorlax',
-        'reference' => 'fbfbc83608ac102125999ca6d1ecab2b3552f69e',
+        'pretty_version' => 'dev-release/M26.togepi',
+        'version' => 'dev-release/M26.togepi',
+        'reference' => '169d2f0fe46af9716d6b36f24ade1ff65f8c1e0a',
         'type' => 'wordpress-plugin',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -11,9 +11,9 @@
     ),
     'versions' => array(
         'the-events-calendar/event-tickets' => array(
-            'pretty_version' => 'dev-release/M26.snorlax',
-            'version' => 'dev-release/M26.snorlax',
-            'reference' => 'fbfbc83608ac102125999ca6d1ecab2b3552f69e',
+            'pretty_version' => 'dev-release/M26.togepi',
+            'version' => 'dev-release/M26.togepi',
+            'reference' => '169d2f0fe46af9716d6b36f24ade1ff65f8c1e0a',
             'type' => 'wordpress-plugin',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
