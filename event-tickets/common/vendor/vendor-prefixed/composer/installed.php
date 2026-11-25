@@ -2,9 +2,9 @@
   'root' => 
   array (
     'name' => 'the-events-calendar/tribe-common',
-    'pretty_version' => 'dev-release/M26.togepi',
-    'version' => 'dev-release/M26.togepi',
-    'reference' => '169d2f0fe46af9716d6b36f24ade1ff65f8c1e0a',
+    'pretty_version' => 'dev-release/M26.tangela',
+    'version' => 'dev-release/M26.tangela',
+    'reference' => '3d20fe111c1a5478fdd777accb347233935f7af4',
     'type' => 'wordpress-plugin',
     'install_path' => __DIR__ . '/../',
     'aliases' => 
